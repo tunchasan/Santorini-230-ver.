@@ -1,7 +1,5 @@
 #include <stdio.h>
-
-// Represents game board
-int gameBoard [6][6];
+#include <stdlib.h>
 
 // Represents player position
 int playerPosition [1][1];
@@ -10,10 +8,10 @@ int playerPosition [1][1];
 int aiPosition [1][1];
 
 // Creates the game board to initialize game
-void createGameBoard();
+void createGameBoard(int**);
 
 // Displays current game board status
-void displayGameBoard();
+void displayGameBoard(int**);
 
 // Controls the current game status
 // 1 -> Represents game is continues
@@ -31,8 +29,12 @@ int validateUserInput();
 void placeAI();
 
 int main(){
+
+    // Represents game board
+    int **gameBoard = (int**)malloc(36 * sizeof(int*));
+
     // create game board
-    createGameBoard();
+    createGameBoard(gameBoard);
 
     // get user input
     getUserInput();
@@ -41,7 +43,7 @@ int main(){
     placeAI();
 
     // display game board
-    displayGameBoard();
+    displayGameBoard(gameBoard);
 
     // game loop
     /*while(controlGameStatus() == 1){
@@ -56,9 +58,13 @@ int main(){
     return 0;
 }
 
-void createGameBoard() {
+void createGameBoard(int** gameBoard) {
     // Loop helper variables
     int i,j;
+
+    // Allocate spaces for gameboard' cells on the memory
+    for(i =0; i<6; i++)
+        gameBoard[i] = (int*)malloc(sizeof(int));
 
     // Initialize the game board with "2"s
     for(i = 0; i < 6; i++){
@@ -70,7 +76,7 @@ void createGameBoard() {
     }
 }
 
-void displayGameBoard(){
+void displayGameBoard(int** gameBoard){
     // Loop helper variables
     int i,j;
 
@@ -99,10 +105,10 @@ int controlGameStatus(){
     return 1;
 }
 
-void placeAI(){
-
-}
-
 void getUserInput(){
     
+}
+
+void placeAI(){
+
 }

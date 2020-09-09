@@ -39,12 +39,18 @@ void displayGameBoard(){
     // Loop helper variables
     int i,j;
 
+    // Table' row headline
+    printf("%s", "   1 2 3 4 5 6\n");
+
     // Initialize the game board with "2"s
     for(i = 0; i < 6; i++){
+        
+        // Table' column headline
+        printf("%d  ", i+1);
 
         for(j = 0; j < 6; j++){
             // Assings the value to all cell
-            printf("%d ",gameBoard[i][j]);
+            printf("%d ", gameBoard[i][j]);
         }
         printf("\n");
     }

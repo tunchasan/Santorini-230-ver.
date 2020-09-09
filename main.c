@@ -12,12 +12,47 @@ int aiPosition [1][1];
 // Creates the game board to initialize game
 void createGameBoard();
 
-// Display current game board status
+// Displays current game board status
 void displayGameBoard();
 
+// Controls the current game status
+// 1 -> Represents game is continues
+// 2 -> Represents Player win
+// 3 -> Represent AI win
+int controlGameStatus();
+
+// Gets user input for player move
+void getUserInput();
+
+// Validates the user' input for his adjacent space
+int validateUserInput();
+
+// Places ai on the game board based on the game rules
+void placeAI();
+
 int main(){
+    // create game board
     createGameBoard();
+
+    // get user input
+    getUserInput();
+
+    // places ai on the game board
+    placeAI();
+
+    // display game board
     displayGameBoard();
+
+    // game loop
+    /*while(controlGameStatus() == 1){
+
+
+
+        // display game board
+        displayGameBoard();
+    }*/
+    
+
     return 0;
 }
 
@@ -44,7 +79,7 @@ void displayGameBoard(){
 
     // Initialize the game board with "2"s
     for(i = 0; i < 6; i++){
-        
+
         // Table' column headline
         printf("%d  ", i+1);
 
@@ -54,4 +89,20 @@ void displayGameBoard(){
         }
         printf("\n");
     }
+}
+
+int controlGameStatus(){
+    // TODO
+    // Implement other game states
+
+    // Game is continues
+    return 1;
+}
+
+void placeAI(){
+
+}
+
+void getUserInput(){
+    
 }

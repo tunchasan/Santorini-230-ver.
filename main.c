@@ -1,11 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Represents player position
-int playerPosition [1][1];
+// Represents player' 2D position
+int playerXPosition;
 
-// Represents ai position
-int aiPosition [1][1];
+int playerYPosition;
+
+// Represents ai' 2D position
+int aiXPosition;
+
+int aiYPosition;
 
 // Creates the game board to initialize game
 void createGameBoard(int**);
@@ -14,16 +18,18 @@ void createGameBoard(int**);
 void displayGameBoard(int**);
 
 // Controls the current game status
-// 1 -> Represents game is continues
-// 2 -> Represents Player win
-// 3 -> Represent AI win
+// Return 1 -> Represents game is continues
+// Return 2 -> Represents Player win
+// Return 3 -> Represent AI win
 int controlGameStatus();
 
 // Gets user input for player move
 void getUserInput();
 
 // Validates the user' input for his adjacent space
-int validateUserInput();
+// Return 1 -> Represents input is valid
+// Return 0 -> Represents input is not valid
+int validateUserInput(int, int);
 
 // Places ai on the game board based on the game rules
 void placeAI();
@@ -106,7 +112,43 @@ int controlGameStatus(){
 }
 
 void getUserInput(){
-    
+
+    //Represent user input' row and column
+    int row, column;
+
+    while(1){
+
+        printf("You will place your builder in on the board in this fashin: 'row col'\n");
+        printf("The row and column must be an integer between 1 and 6 \n");
+        printf("Place your builder: ");
+        
+        scanf("%d", &row);
+        printf(" ");
+        scanf("%d", &column);
+        
+        // Validates the user input
+        if(validateUserInput(row,column)) {
+
+            printf("Player moves to (%d, %d)\n",row,column);
+
+            //Update player' location on the game board
+            playerXPosition = row;
+
+            playerYPosition = column;
+
+            // Then break the endless loop
+            break;
+        }
+
+        else{
+            printf("\n!!! The row and column must be an integer between 1 and 6\n\n");
+        }
+    }
+}
+
+int validateUserInput(int row, int column){
+
+    return row > 0 && row < 7 && column > 0 && column < 7;
 }
 
 void placeAI(){

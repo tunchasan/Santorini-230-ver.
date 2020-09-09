@@ -24,7 +24,7 @@ void displayGameBoard(int**);
 int controlGameStatus();
 
 // Gets user input for player move
-void getUserInput();
+void getUserInput(int);
 
 // Validates the user' input for his adjacent space
 // Return 1 -> Represents input is valid
@@ -32,24 +32,38 @@ void getUserInput();
 int validateUserInput(int, int);
 
 // Places ai on the game board based on the game rules
-void placeAI();
+void placeAI(int);
+
+// Finds a valid location based on the given location's adjacents on the game board
+// Third parameter is representing whether displays the valid location or not
+// 1 -> display 0 -> do not display
+int **findValidLocation(int, int, int);
 
 int main(){
 
     // Represents game board
     int **gameBoard = (int**)malloc(36 * sizeof(int*));
 
+    // Represents the game' on the begin state
+    int onGameStarting = 1;
+
     // create game board
     createGameBoard(gameBoard);
 
     // get user input
-    getUserInput();
-
-    // places ai on the game board
-    placeAI();
+    getUserInput(onGameStarting);
 
     // display game board
     displayGameBoard(gameBoard);
+
+    // places ai on the game board
+    placeAI(onGameStarting);
+
+    // display game board
+    displayGameBoard(gameBoard);
+
+    // Represent the game is not begin state
+    onGameStarting = -1;
 
     // game loop
     /*while(controlGameStatus() == 1){
@@ -126,15 +140,26 @@ int controlGameStatus(){
     return 1;
 }
 
-void getUserInput(){
+void getUserInput(int onBeginState){
 
-    //Represent user input' row and column
+    //Represents user input' row and column
     int row, column;
 
     while(1){
 
         printf("You will place your builder in on the board in this fashin: 'row col'\n");
         printf("The row and column must be an integer between 1 and 6 \n");
+
+        // If not on the begin state
+        if(onBeginState != 1){
+
+            // TODO
+
+            // Find adjacent space on the game board
+
+            // Display the valid spaces for player
+        }
+
         printf("Place your builder: ");
         
         scanf("%d", &row);
@@ -149,6 +174,14 @@ void getUserInput(){
             playerXPosition = row;
 
             playerYPosition = column;
+
+            // If not on the begin state
+            if(onBeginState != 1){
+
+                // TODO
+
+                // Effect the board
+            }
 
             // Then break the endless loop
             break;
@@ -165,6 +198,15 @@ int validateUserInput(int row, int column){
     return row > 0 && row < 7 && column > 0 && column < 7;
 }
 
-void placeAI(){
+void placeAI(int onBeginState){
 
+    int newLocation[3][3] = findValidLocation(aiXPosition, aiYPosition, 0);
+
+    aiXPosition = 
+
+    printf("AI moves to (%d, %d)\n\n",row,column);
+}
+
+int **findValidLocation(int x, int y, int displayValidLocations){
+    return NULL;
 }

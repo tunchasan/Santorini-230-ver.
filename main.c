@@ -96,8 +96,23 @@ void displayGameBoard(int** gameBoard){
         printf("%d  ", i+1);
 
         for(j = 0; j < 6; j++){
-            // Assings the value to all cell
-            printf("%d ", gameBoard[i][j]);
+
+            // Controls Player location on the game board
+            if(i == playerXPosition -1 && j == playerYPosition -1){
+                printf("P ");
+            }
+
+            // Controls AI location on the game board
+            else if(i == aiXPosition -1 && j == aiYPosition - 1){
+                printf("A ");
+
+            }
+
+            else{
+                // Assings the value to all cell
+                printf("%d ", gameBoard[i][j]);
+            }
+            
         }
         printf("\n");
     }
@@ -123,13 +138,12 @@ void getUserInput(){
         printf("Place your builder: ");
         
         scanf("%d", &row);
-        printf(" ");
         scanf("%d", &column);
         
         // Validates the user input
         if(validateUserInput(row,column)) {
 
-            printf("Player moves to (%d, %d)\n",row,column);
+            printf("Player moves to (%d, %d)\n\n",row,column);
 
             //Update player' location on the game board
             playerXPosition = row;

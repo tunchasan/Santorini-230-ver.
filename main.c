@@ -32,7 +32,7 @@ void displayGameBoard(int**);
 // Return 1 -> Represents game is continues
 // Return 2 -> Represents Player win
 // Return 3 -> Represent AI win
-int controlGameStatus();
+int controlGameStatus(int**);
 
 // Gets user input for player move
 void getUserInput(int);
@@ -104,7 +104,7 @@ int main(){
     onGameStarting = -1;
 
     // game loop
-    while(controlGameStatus() == 1){
+    while(controlGameStatus(gameBoard) == 1){
 
         // get user input
         getUserInput(onGameStarting);
@@ -184,9 +184,47 @@ void displayGameBoard(int** gameBoard){
     }
 }
 
-int controlGameStatus(){
-    // TODO
-    // Implement other game states
+int controlGameStatus(int** gameBoard){
+
+    int i,j;
+
+    // Represents "4" level builder counts
+    int playerPoints = 0;
+
+    // Represents "0" level builder counts
+    int aiPoints = 0;
+
+    // loop in the game board spaces
+    for(i = 0; i < 6; i++){
+
+        for(j = 0; j < 6; j++){
+
+            // Increase playerPoints
+            if(gameBoard[i][j] == 4)
+                playerPoints++;
+
+            // Increase aiPoints
+            else if(gameBoard[i][j] == 0){
+                aiPoints++;
+            }
+        }
+    }
+
+    // Player wins
+    if(playerPoints >= 10){
+
+        printf("\nPlayer wins.\n\n");
+
+        return 2;
+    }
+
+    // AI wins
+    if(aiPoints >= 10){
+
+        printf("\nAI wins.\n\n");
+
+        return 3;
+    }
 
     // Game is continues
     return 1;

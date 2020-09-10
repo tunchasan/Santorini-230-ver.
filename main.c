@@ -81,7 +81,6 @@ int main(){
 
     // Represents the game' on the begin state
     int onGameStarting = 1;
-    randomNumberInRange(3);
 
     // create game board
     createGameBoard(gameBoard);

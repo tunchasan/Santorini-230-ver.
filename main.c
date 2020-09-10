@@ -377,10 +377,68 @@ int validateSpaces(Vector2D** spaces, int x, int y){
 
 void effectGameBoard(int point, int** gameBoard){
 
-    int row = point == 1 ? playerXPosition - 1 : aiXPosition - 1;
+    int row, column;
 
-    int column = point == 1 ? playerYPosition - 1 : aiYPosition - 1;
+    // Represents octogonal count on the game board
+    int effectionCounter = 0;
 
+    int xAxis,yAxis;
+
+    do{
+        // Loop for each axis except (0, 0)
+        for(xAxis = -1; xAxis < 2; xAxis++){
+            for(yAxis = -1; yAxis < 2; yAxis++){
+
+                if(xAxis == 0 && yAxis == 0)
+                    continue;
+
+                // Update the position informations
+                row = point == 1 ? playerXPosition - 1 : aiXPosition - 1;
+
+                column = point == 1 ? playerYPosition - 1 : aiYPosition - 1;
+
+                while(1){
+                    row = row + xAxis;
+
+                    column = column + yAxis;
+
+                    // Player
+                    if(point == 1){
+                        if(blockedByPlayer(row, column))
+                            continue;
+                        else if(blockedByAI(row, column))
+                            break;
+                    }
+
+                    // AI
+                    if(point == -1){
+                        if(blockedByAI(row, column))
+                            continue;
+                        else if(blockedByPlayer(row, column))
+                            break;
+                    }
+
+                    if(validateSpaceForGameBoard(row, column)){
+                        gameBoard[row][column] += point;
+
+                        // Normalize the overflow values
+                        if(gameBoard[row][column] > 4)
+                            gameBoard[row][column] = 4;
+                        else if(gameBoard[row][column] < 0)
+                            gameBoard[row][column] = 0;
+                    }
+                    else
+                        break;
+                }
+
+                // Increase the counter
+                effectionCounter++;
+            }
+        }
+
+    } while(effectionCounter < 8);
+
+/*
     // (-x, -y)
     while(1){
 
@@ -686,7 +744,7 @@ void effectGameBoard(int point, int** gameBoard){
         }
         else
             break;
-    }
+    }*/
 }
 
 int blockedByPlayer(int row, int column){

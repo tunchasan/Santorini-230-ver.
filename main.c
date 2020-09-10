@@ -42,10 +42,10 @@ void getUserInput(int);
 // Return 0 -> Represents input is not valid
 int validateSpace(int, int);
 
-// Validates the user' input for his adjacent space
+// Validates the user' input for his adjacent space on the game board
 // Return 1 -> Represents input is valid
 // Return 0 -> Represents input is not valid
-int validateSpaceForUpdate(int, int);
+int validateSpaceForGameBoard(int, int);
 
 // Places ai on the game board based on the game rules
 void placeAI(int);
@@ -67,6 +67,12 @@ int validateSpaces(Vector2D**, int, int);
 // Paramater 1 -> Player
 // Raramater -1 -> AI
 void effectGameBoard(int, int**);
+
+// Returns 1 if the given 2D space blocked by player otherwise 0
+int blockedByPlayer(int, int);
+
+// Returns 1 if the given 2D space blocked by ai otherwise 0
+int blockedByAI(int, int);
 
 int main(){
 
@@ -261,11 +267,9 @@ int validateSpace(int row, int column){
             && !(row == aiXPosition && column == aiYPosition);
 }
 
-int validateSpaceForUpdate(int row, int column){
+int validateSpaceForGameBoard(int row, int column){
 
-    return (row >= 0 && row < 6 && column >= 0 && column < 6) 
-            && !(row == playerXPosition && column == playerYPosition)
-            && !(row == aiXPosition && column == aiYPosition);
+    return (row >= 0 && row < 6 && column >= 0 && column < 6);
 }
 
 void placeAI(int onBeginState){
@@ -376,7 +380,7 @@ void effectGameBoard(int point, int** gameBoard){
     int row = point == 1 ? playerXPosition - 1 : aiXPosition - 1;
 
     int column = point == 1 ? playerYPosition - 1 : aiYPosition - 1;
-/*
+
     // (-x, -y)
     while(1){
 
@@ -384,7 +388,23 @@ void effectGameBoard(int point, int** gameBoard){
 
         column = column -1;
 
-        if(validateSpaceForUpdate(row, column)){
+        // Player
+        if(point == 1){
+            if(blockedByPlayer(row, column))
+                continue;
+            else if(blockedByAI(row, column))
+                break;
+        }
+
+        // AI
+        if(point == -1){
+            if(blockedByAI(row, column))
+                continue;
+            else if(blockedByPlayer(row, column))
+                break;
+        }
+
+        if(validateSpaceForGameBoard(row, column)){
             gameBoard[row][column] += point;
 
             // Normalize the overflow values
@@ -408,8 +428,24 @@ void effectGameBoard(int point, int** gameBoard){
 
         column = column +1;
 
-        if(validateSpaceForUpdate(row, column)){
-            gameBoard[row][column] = 3;
+        // Player
+        if(point == 1){
+            if(blockedByPlayer(row, column))
+                continue;
+            else if(blockedByAI(row, column))
+                break;
+        }
+
+        // AI
+        if(point == -1){
+            if(blockedByAI(row, column))
+                continue;
+            else if(blockedByPlayer(row, column))
+                break;
+        }
+
+        if(validateSpaceForGameBoard(row, column)){
+            gameBoard[row][column] += point;
 
             // Normalize the overflow values
             if(gameBoard[row][column] > 4)
@@ -424,15 +460,30 @@ void effectGameBoard(int point, int** gameBoard){
     row = point == 1 ? playerXPosition - 1 : aiXPosition - 1;
 
     column = point == 1 ? playerYPosition - 1 : aiYPosition - 1;
-
     // (+x, -y)
     while(1){
 
         row = row +1;
 
         column = column -1;
+
+        // Player
+        if(point == 1){
+            if(blockedByPlayer(row, column))
+                continue;
+            else if(blockedByAI(row, column))
+                break;
+        }
+
+        // AI
+        if(point == -1){
+            if(blockedByAI(row, column))
+                continue;
+            else if(blockedByPlayer(row, column))
+                break;
+        }
         
-        if(validateSpaceForUpdate(row, column)){
+        if(validateSpaceForGameBoard(row, column)){
             gameBoard[row][column] += point;
 
             // Normalize the overflow values
@@ -448,19 +499,32 @@ void effectGameBoard(int point, int** gameBoard){
     row = point == 1 ? playerXPosition - 1 : aiXPosition - 1;
 
     column = point == 1 ? playerYPosition - 1 : aiYPosition - 1;
-*/
+
     // (+x, +y)
     while(1){
-            printf("[%d, %d] ", row, column);
 
         row = row +1;
 
         column = column +1;
-            printf("[%d, %d] ", row, column);
-        
-        if(validateSpaceForUpdate(row, column)){
+
+        // Player
+        if(point == 1){
+            if(blockedByPlayer(row, column))
+                continue;
+            else if(blockedByAI(row, column))
+                break;
+        }
+
+        // AI
+        if(point == -1){
+            if(blockedByAI(row, column))
+                continue;
+            else if(blockedByPlayer(row, column))
+                break;
+        }
+
+        if(validateSpaceForGameBoard(row, column)){
             gameBoard[row][column] += point;
-            printf("[%d, %d] ", row, column);
 
             // Normalize the overflow values
             if(gameBoard[row][column] > 4)
@@ -475,13 +539,29 @@ void effectGameBoard(int point, int** gameBoard){
     row = point == 1 ? playerXPosition - 1 : aiXPosition - 1;
 
     column = point == 1 ? playerYPosition - 1 : aiYPosition - 1;
-/*
+
     // (0, -y)
     while(1){
 
         column = column -1;
+
+        // Player
+        if(point == 1){
+            if(blockedByPlayer(row, column))
+                continue;
+            else if(blockedByAI(row, column))
+                break;
+        }
+
+        // AI
+        if(point == -1){
+            if(blockedByAI(row, column))
+                continue;
+            else if(blockedByPlayer(row, column))
+                break;
+        }
         
-        if(validateSpaceForUpdate(row, column)){
+        if(validateSpaceForGameBoard(row, column)){
             gameBoard[row][column] += point;
 
             // Normalize the overflow values
@@ -503,7 +583,23 @@ void effectGameBoard(int point, int** gameBoard){
 
         column = column +1;
 
-        if(validateSpaceForUpdate(row, column)){
+        // Player
+        if(point == 1){
+            if(blockedByPlayer(row, column))
+                continue;
+            else if(blockedByAI(row, column))
+                break;
+        }
+
+        // AI
+        if(point == -1){
+            if(blockedByAI(row, column))
+                continue;
+            else if(blockedByPlayer(row, column))
+                break;
+        }
+
+        if(validateSpaceForGameBoard(row, column)){
             gameBoard[row][column] += point;
 
             // Normalize the overflow values
@@ -525,7 +621,23 @@ void effectGameBoard(int point, int** gameBoard){
 
         row = row -1;
 
-        if(validateSpaceForUpdate(row, column)){
+        // Player
+        if(point == 1){
+            if(blockedByPlayer(row, column))
+                continue;
+            else if(blockedByAI(row, column))
+                break;
+        }
+
+        // AI
+        if(point == -1){
+            if(blockedByAI(row, column))
+                continue;
+            else if(blockedByPlayer(row, column))
+                break;
+        }
+
+        if(validateSpaceForGameBoard(row, column)){
             gameBoard[row][column] += point;
 
             // Normalize the overflow values
@@ -546,8 +658,24 @@ void effectGameBoard(int point, int** gameBoard){
     while(1){
 
         row = row +1;
+
+        // Player
+        if(point == 1){
+            if(blockedByPlayer(row, column))
+                continue;
+            else if(blockedByAI(row, column))
+                break;
+        }
+
+        // AI
+        if(point == -1){
+            if(blockedByAI(row, column))
+                continue;
+            else if(blockedByPlayer(row, column))
+                break;
+        }
         
-        if(validateSpaceForUpdate(row, column)){
+        if(validateSpaceForGameBoard(row, column)){
             gameBoard[row][column] += point;
 
             // Normalize the overflow values
@@ -558,5 +686,13 @@ void effectGameBoard(int point, int** gameBoard){
         }
         else
             break;
-    }*/
+    }
+}
+
+int blockedByPlayer(int row, int column){
+    return row == playerXPosition -1 && column == playerYPosition -1;
+}
+
+int blockedByAI(int row, int column){
+    return row == aiXPosition -1 && column == aiYPosition -1;
 }

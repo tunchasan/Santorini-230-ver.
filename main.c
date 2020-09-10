@@ -81,13 +81,22 @@ int main(){
     onGameStarting = -1;
 
     // game loop
-    /*while(controlGameStatus() == 1){
+    while(controlGameStatus() == 1){
 
-
+        // get user input
+        getUserInput(onGameStarting);
 
         // display game board
-        displayGameBoard();
-    }*/
+        displayGameBoard(gameBoard);
+
+        // places ai on the game board
+        placeAI(onGameStarting);
+
+        // display game board
+        displayGameBoard(gameBoard);
+
+        printf("\n");
+    }
     
 
     return 0;
@@ -203,7 +212,8 @@ void getUserInput(int onBeginState){
         }
 
         else{
-            printf("\n!!! The row and column must be an integer between 1 and 6\n\n");
+            printf("\n!!! The row and column must be an integer between 1 and 6\n");
+            printf("!!! You should not place your builder to your current location or current AI builder's location\n\n");
         }
     }
 }
@@ -245,7 +255,7 @@ void placeAI(int onBeginState){
 
     aiYPosition = validSpaces[randNum]->positionY;
 
-    printf("\nAI moves to (%d, %d)\n\n",aiXPosition, aiYPosition);
+    printf("AI moves to (%d, %d)\n\n",aiXPosition, aiYPosition);
 }
 
 Vector2D **findValidLocation(int x, int y, int displayValidLocations){

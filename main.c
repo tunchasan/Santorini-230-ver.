@@ -256,6 +256,9 @@ Vector2D **findValidLocation(int x, int y, int displayValidLocations){
     // Loop helper variables
     int i,j,spaceIndex = 0;
 
+    if(displayValidLocations)
+        printf("Valid Spaces: ");
+
     // Calculates the adjacents 2d points on the board
     for(i = -1; i < 2; i++){
 

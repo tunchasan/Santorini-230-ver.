@@ -48,7 +48,7 @@ void placeAI(int);
 // Finds a valid location based on the given location's adjacents on the game board
 // Third parameter is representing whether displays the valid location or not
 // 1 -> display 0 -> do not display
-Vector2D *findValidLocation(int, int, int);
+Vector2D **findValidLocation(int, int, int);
 
 // Returns random numbers between 0 to given number
 int randomNumberInRange(int);
@@ -217,27 +217,44 @@ int validateSpace(int row, int column){
 
 void placeAI(int onBeginState){
 
-    // get the valid spaces on the game board based on the game rules
-    Vector2D *validSpaces = findValidLocation(aiXPosition, aiYPosition, 0);
+    Vector2D **validSpaces;
 
-    // TODO
+    if(onBeginState == 1){
+        // get the valid spaces on the game board based on the game rules
+        validSpaces = findValidLocation(playerXPosition, playerYPosition, 0);
+    }
+    else{
+        // get the valid spaces on the game board based on the game rules
+        validSpaces = findValidLocation(aiXPosition, aiYPosition, 0);
+    }
 
-    //aiXPosition = validSpaces[][];
+    int i, validSpacesCount = 0;
 
-    printf("AI moves to (%d, %d)\n\n",aiXPosition, aiYPosition);
+    // Finds the validSpaces elements counts
+    for(i = 0; i < 9; i++){
+        if(validSpaces[i] != NULL)
+            validSpacesCount++;
+        else
+            break;
+    }
+
+    // Pick a valid places randomly
+    int randNum = randomNumberInRange(validSpacesCount);
+
+    aiXPosition = validSpaces[randNum]->positionX;
+
+    aiYPosition = validSpaces[randNum]->positionY;
+
+    // printf("AI moves to (%d, %d)\n\n",aiXPosition, aiYPosition);
 }
 
-Vector2D *findValidLocation(int x, int y, int displayValidLocations){
+Vector2D **findValidLocation(int x, int y, int displayValidLocations){
 
     // Represents valid spaces on the game board based on the given locations
     Vector2D **spaces = (Vector2D**)malloc(9 * sizeof(Vector2D*));
 
     // Loop helper variables
     int i,j,spaceIndex = 0;
-
-    // // Allocate spaces for gameboard' cells on the memory
-    // for(i = 0; i < 9; i++)
-    //     spaces[i] = NULL;
 
     // Calculates the adjacents 2d points on the board
     for(i = -1; i < 2; i++){
@@ -260,14 +277,14 @@ Vector2D *findValidLocation(int x, int y, int displayValidLocations){
 
                 spaces[spaceIndex] = newVector;
 
-                // printf("%d %d   ", spaces[z]->positionX, spaces[z]->positionY);
+                // printf("%d %d   ", spaces[spaceIndex]->positionX, spaces[spaceIndex]->positionY);
 
                 spaceIndex++;
             }
         }
     }
 
-    return NULL;
+    return spaces;
 }
 
 int randomNumberInRange(int max){

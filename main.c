@@ -245,7 +245,7 @@ void placeAI(int onBeginState){
 
     aiYPosition = validSpaces[randNum]->positionY;
 
-    // printf("AI moves to (%d, %d)\n\n",aiXPosition, aiYPosition);
+    printf("\nAI moves to (%d, %d)\n\n",aiXPosition, aiYPosition);
 }
 
 Vector2D **findValidLocation(int x, int y, int displayValidLocations){

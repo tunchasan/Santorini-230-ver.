@@ -1,5 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+
+// Represents 2D vector
+struct Vector2D{
+    // X position on the board
+    int positionX;
+    // Y position on the board
+    int positionY;
+};
+
+typedef struct Vector2D Vector2D;
 
 // Represents player' 2D position
 int playerXPosition;
@@ -37,7 +48,10 @@ void placeAI(int);
 // Finds a valid location based on the given location's adjacents on the game board
 // Third parameter is representing whether displays the valid location or not
 // 1 -> display 0 -> do not display
-int **findValidLocation(int, int, int);
+Vector2D **findValidLocation(int, int, int);
+
+// Returns random numbers between 0 to given number
+int randomNumberInRange(int);
 
 int main(){
 
@@ -46,6 +60,7 @@ int main(){
 
     // Represents the game' on the begin state
     int onGameStarting = 1;
+    randomNumberInRange(3);
 
     // create game board
     createGameBoard(gameBoard);
@@ -200,13 +215,27 @@ int validateUserInput(int row, int column){
 
 void placeAI(int onBeginState){
 
-    int newLocation[3][3] = findValidLocation(aiXPosition, aiYPosition, 0);
+    // get the valid spaces on the game board based on the game rules
+    Vector2D **validSpaces = findValidLocation(aiXPosition, aiYPosition, 0);
 
-    aiXPosition = 
+    // TODO
 
-    printf("AI moves to (%d, %d)\n\n",row,column);
+    //aiXPosition = validSpaces[][];
+
+    printf("AI moves to (%d, %d)\n\n",aiXPosition, aiYPosition);
 }
 
-int **findValidLocation(int x, int y, int displayValidLocations){
+Vector2D **findValidLocation(int x, int y, int displayValidLocations){
+
+    // TODO
+
     return NULL;
+}
+
+int randomNumberInRange(int max){
+
+    //Intializes random number generator
+    srand(time(NULL)); 
+
+    return rand() % max;
 }

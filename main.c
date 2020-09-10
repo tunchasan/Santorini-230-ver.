@@ -194,7 +194,7 @@ void getUserInput(int onBeginState){
         // If not on the begin state
         if(validateSpaces(validSpaces, row, column) == 1){
 
-            printf("Player moves to (%d, %d)\n\n",row,column);
+            printf("\nPlayer moves to (%d, %d)\n\n",row,column);
 
             //Update player' location on the game board
             playerXPosition = row;
@@ -310,19 +310,17 @@ Vector2D **findValidLocation(int x, int y, int displayValidLocations){
                     printf("(%d, %d) ", row, column);
                 }
 
-                else{
+                // Then adds the list
+                Vector2D *newVector = (Vector2D*)malloc(sizeof(Vector2D));
 
-                    // Then adds the list
-                    Vector2D *newVector = (Vector2D*)malloc(sizeof(Vector2D));
+                newVector->positionX = row;
 
-                    newVector->positionX = row;
+                newVector->positionY = column;
 
-                    newVector->positionY = column;
+                spaces[spaceIndex] = newVector;
 
-                    spaces[spaceIndex] = newVector;
-
-                    spaceIndex++;
-                }
+                spaceIndex++;
+                
             }
         }
     }
@@ -346,7 +344,6 @@ int validateSpaces(Vector2D** spaces, int x, int y){
 
     // Check the condition for each element
     for(i = 0; i < 9; i++){
-
         if(spaces[i] != NULL){
             if(spaces[i]->positionX == x && spaces[i]->positionY == y)
                 return 1;

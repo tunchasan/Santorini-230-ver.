@@ -268,21 +268,28 @@ Vector2D **findValidLocation(int x, int y, int displayValidLocations){
             // Validate the adjacent points
             if(validateSpace(row, column)){
 
-                // Then adds the list
-                Vector2D *newVector = (Vector2D*)malloc(sizeof(Vector2D));
+                if(displayValidLocations){
+                    printf("(%d, %d) ", row, column);
+                }
 
-                newVector->positionX = row;
+                else{
 
-                newVector->positionY = column;
+                    // Then adds the list
+                    Vector2D *newVector = (Vector2D*)malloc(sizeof(Vector2D));
 
-                spaces[spaceIndex] = newVector;
+                    newVector->positionX = row;
 
-                // printf("%d %d   ", spaces[spaceIndex]->positionX, spaces[spaceIndex]->positionY);
+                    newVector->positionY = column;
 
-                spaceIndex++;
+                    spaces[spaceIndex] = newVector;
+
+                    spaceIndex++;
+                }
             }
         }
     }
+
+    printf("\n");
 
     return spaces;
 }

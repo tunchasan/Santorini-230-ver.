@@ -18,9 +18,9 @@ int playerXPosition;
 int playerYPosition;
 
 // Represents ai' 2D position
-int aiXPosition = 4;
+int aiXPosition;
 
-int aiYPosition = 3;
+int aiYPosition;
 
 // Creates the game board to initialize game
 void createGameBoard(int**);
@@ -53,6 +53,11 @@ Vector2D **findValidLocation(int, int, int);
 // Returns random numbers between 0 to given number
 int randomNumberInRange(int);
 
+// Validates if given points is a member of the list
+// Return 1 -> if matches
+// Return 0 -> if not
+int validateSpaces(Vector2D**, int, int);
+
 int main(){
 
     // Represents game board
@@ -76,6 +81,8 @@ int main(){
 
     // display game board
     displayGameBoard(gameBoard);
+
+    printf("\n");
 
     // Represent the game is not begin state
     onGameStarting = -1;
@@ -169,20 +176,46 @@ void getUserInput(int onBeginState){
     //Represents user input' row and column
     int row, column;
 
-    while(1){
+    // If the game is not newly started
+    while(onBeginState != 1){
+
+        printf("You will place your builder in on the board in this fashion: 'row col'\n");
+        printf("The row and column must be an integer between 1 and 6 \n");
+
+        // Stores valid adjacents points on the game board
+        Vector2D **validSpaces = findValidLocation(playerXPosition, playerYPosition, 1);
+        printf("Check the valid spaces and place your builder based on the spaces\n");
+
+        printf("Place your builder: ");
+        
+        scanf("%d", &row);
+        scanf("%d", &column);
+
+        // If not on the begin state
+        if(validateSpaces(validSpaces, row, column) == 1){
+
+            printf("Player moves to (%d, %d)\n\n",row,column);
+
+            //Update player' location on the game board
+            playerXPosition = row;
+
+            playerYPosition = column;
+
+            // Then break the endless loop
+            break;
+        }
+
+        else{
+            printf("\n!!! The row and column must be an integer between 1 and 6\n");
+            printf("!!! You should not place your builder to your current location or current AI builder's location\n\n");
+        }
+    }
+
+    // If the game is newly started
+    while(onBeginState == 1){
 
         printf("You will place your builder in on the board in this fashin: 'row col'\n");
         printf("The row and column must be an integer between 1 and 6 \n");
-
-        // If not on the begin state
-        if(onBeginState != 1){
-
-            // TODO
-
-            // Find adjacent space on the game board
-
-            // Display the valid spaces for player
-        }
 
         printf("Place your builder: ");
         
@@ -198,14 +231,6 @@ void getUserInput(int onBeginState){
             playerXPosition = row;
 
             playerYPosition = column;
-
-            // If not on the begin state
-            if(onBeginState != 1){
-
-                // TODO
-
-                // Effect the board
-            }
 
             // Then break the endless loop
             break;
@@ -313,4 +338,20 @@ int randomNumberInRange(int max){
     srand(time(NULL)); 
 
     return rand() % max;
+}
+
+int validateSpaces(Vector2D** spaces, int x, int y){
+
+    int i;
+
+    // Check the condition for each element
+    for(i = 0; i < 9; i++){
+
+        if(spaces[i] != NULL){
+            if(spaces[i]->positionX == x && spaces[i]->positionY == y)
+                return 1;
+        }
+    }
+
+    return 0;
 }

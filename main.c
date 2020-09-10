@@ -179,9 +179,6 @@ void getUserInput(int onBeginState){
     // If the game is not newly started
     while(onBeginState != 1){
 
-        printf("You will place your builder in on the board in this fashion: 'row col'\n");
-        printf("The row and column must be an integer between 1 and 6 \n");
-
         // Stores valid adjacents points on the game board
         Vector2D **validSpaces = findValidLocation(playerXPosition, playerYPosition, 1);
         printf("Check the valid spaces and place your builder based on the spaces\n");
@@ -205,10 +202,9 @@ void getUserInput(int onBeginState){
             break;
         }
 
-        else{
-            printf("\n!!! The row and column must be an integer between 1 and 6\n");
-            printf("!!! You should not place your builder to your current location or current AI builder's location\n\n");
-        }
+        else
+            printf("\n!!!Out of valid spaces. Check the valid spaces and place your builder based on the spaces\n\n");
+            
     }
 
     // If the game is newly started

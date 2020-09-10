@@ -18,9 +18,9 @@ int playerXPosition;
 int playerYPosition;
 
 // Represents ai' 2D position
-int aiXPosition;
+int aiXPosition = 4;
 
-int aiYPosition;
+int aiYPosition = 3;
 
 // Creates the game board to initialize game
 void createGameBoard(int**);
@@ -40,7 +40,7 @@ void getUserInput(int);
 // Validates the user' input for his adjacent space
 // Return 1 -> Represents input is valid
 // Return 0 -> Represents input is not valid
-int validateUserInput(int, int);
+int validateSpace(int, int);
 
 // Places ai on the game board based on the game rules
 void placeAI(int);
@@ -48,7 +48,7 @@ void placeAI(int);
 // Finds a valid location based on the given location's adjacents on the game board
 // Third parameter is representing whether displays the valid location or not
 // 1 -> display 0 -> do not display
-Vector2D **findValidLocation(int, int, int);
+Vector2D *findValidLocation(int, int, int);
 
 // Returns random numbers between 0 to given number
 int randomNumberInRange(int);
@@ -181,7 +181,7 @@ void getUserInput(int onBeginState){
         scanf("%d", &column);
         
         // Validates the user input
-        if(validateUserInput(row,column)) {
+        if(validateSpace(row,column)) {
 
             printf("Player moves to (%d, %d)\n\n",row,column);
 
@@ -208,15 +208,17 @@ void getUserInput(int onBeginState){
     }
 }
 
-int validateUserInput(int row, int column){
+int validateSpace(int row, int column){
 
-    return row > 0 && row < 7 && column > 0 && column < 7;
+    return (row > 0 && row < 7 && column > 0 && column < 7) 
+            && !(row == playerXPosition && column == playerYPosition)
+            && !(row == aiXPosition && column == aiYPosition);
 }
 
 void placeAI(int onBeginState){
 
     // get the valid spaces on the game board based on the game rules
-    Vector2D **validSpaces = findValidLocation(aiXPosition, aiYPosition, 0);
+    Vector2D *validSpaces = findValidLocation(aiXPosition, aiYPosition, 0);
 
     // TODO
 
@@ -225,9 +227,45 @@ void placeAI(int onBeginState){
     printf("AI moves to (%d, %d)\n\n",aiXPosition, aiYPosition);
 }
 
-Vector2D **findValidLocation(int x, int y, int displayValidLocations){
+Vector2D *findValidLocation(int x, int y, int displayValidLocations){
 
-    // TODO
+    // Represents valid spaces on the game board based on the given locations
+    Vector2D **spaces = (Vector2D**)malloc(9 * sizeof(Vector2D*));
+
+    // Loop helper variables
+    int i,j,spaceIndex = 0;
+
+    // // Allocate spaces for gameboard' cells on the memory
+    // for(i = 0; i < 9; i++)
+    //     spaces[i] = NULL;
+
+    // Calculates the adjacents 2d points on the board
+    for(i = -1; i < 2; i++){
+
+        for(j = -1; j < 2; j++){
+
+            int row = x + i;
+
+            int column = y + j;
+
+            // Validate the adjacent points
+            if(validateSpace(row, column)){
+
+                // Then adds the list
+                Vector2D *newVector = (Vector2D*)malloc(sizeof(Vector2D));
+
+                newVector->positionX = row;
+
+                newVector->positionY = column;
+
+                spaces[spaceIndex] = newVector;
+
+                // printf("%d %d   ", spaces[z]->positionX, spaces[z]->positionY);
+
+                spaceIndex++;
+            }
+        }
+    }
 
     return NULL;
 }

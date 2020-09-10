@@ -42,6 +42,11 @@ void getUserInput(int);
 // Return 0 -> Represents input is not valid
 int validateSpace(int, int);
 
+// Validates the user' input for his adjacent space
+// Return 1 -> Represents input is valid
+// Return 0 -> Represents input is not valid
+int validateSpaceForUpdate(int, int);
+
 // Places ai on the game board based on the game rules
 void placeAI(int);
 
@@ -57,6 +62,11 @@ int randomNumberInRange(int);
 // Return 1 -> if matches
 // Return 0 -> if not
 int validateSpaces(Vector2D**, int, int);
+
+// Effect the game board after move
+// Paramater 1 -> Player
+// Raramater -1 -> AI
+void effectGameBoard(int, int**);
 
 int main(){
 
@@ -93,18 +103,23 @@ int main(){
         // get user input
         getUserInput(onGameStarting);
 
+        // effect game board as player
+        effectGameBoard(1, gameBoard);
+
         // display game board
         displayGameBoard(gameBoard);
 
         // places ai on the game board
         placeAI(onGameStarting);
 
+        // effect game board as ai
+        effectGameBoard(-1, gameBoard);
+
         // display game board
         displayGameBoard(gameBoard);
 
         printf("\n");
     }
-    
 
     return 0;
 }
@@ -246,6 +261,13 @@ int validateSpace(int row, int column){
             && !(row == aiXPosition && column == aiYPosition);
 }
 
+int validateSpaceForUpdate(int row, int column){
+
+    return (row >= 0 && row < 6 && column >= 0 && column < 6) 
+            && !(row == playerXPosition && column == playerYPosition)
+            && !(row == aiXPosition && column == aiYPosition);
+}
+
 void placeAI(int onBeginState){
 
     Vector2D **validSpaces;
@@ -347,4 +369,165 @@ int validateSpaces(Vector2D** spaces, int x, int y){
     }
 
     return 0;
+}
+
+void effectGameBoard(int point, int** gameBoard){
+
+    int row = point == 1 ? playerXPosition : aiXPosition;
+
+    int column = point == 1 ? playerYPosition : aiYPosition;
+
+    int i,j;
+
+    // (-x, -y)
+    while(1){
+
+        row = row -1;
+
+        column = column -1;
+
+        if(validateSpaceForUpdate(row, column)){
+            gameBoard[row][column] += point;
+
+            // Normalize the overflow values
+            if(gameBoard[row][column] > 4)
+                gameBoard[row][column] = 4;
+            else if(gameBoard[row][column] < 0)
+                gameBoard[row][column] = 0;
+        }
+        else
+            break;
+    }
+
+    // (-x, +y)
+    while(1){
+
+        row = row -1;
+
+        column = column +1;
+        
+        if(validateSpaceForUpdate(row, column)){
+            gameBoard[row][column] += point;
+
+            // Normalize the overflow values
+            if(gameBoard[row][column] > 4)
+                gameBoard[row][column] = 4;
+            else if(gameBoard[row][column] < 0)
+                gameBoard[row][column] = 0;
+        }
+        else
+            break;
+    }
+
+    // (+x, -y)
+    while(1){
+
+        row = row +1;
+
+        column = column -1;
+        
+        if(validateSpaceForUpdate(row, column)){
+            gameBoard[row][column] += point;
+
+            // Normalize the overflow values
+            if(gameBoard[row][column] > 4)
+                gameBoard[row][column] = 4;
+            else if(gameBoard[row][column] < 0)
+                gameBoard[row][column] = 0;
+        }
+        else
+            break;
+    }
+
+    // (+x, +y)
+    while(1){
+
+        row = row +1;
+
+        column = column +1;
+        
+        if(validateSpaceForUpdate(row, column)){
+            gameBoard[row][column] += point;
+
+            // Normalize the overflow values
+            if(gameBoard[row][column] > 4)
+                gameBoard[row][column] = 4;
+            else if(gameBoard[row][column] < 0)
+                gameBoard[row][column] = 0;
+        }
+        else
+            break;
+    }
+
+    // (0, -y)
+    while(1){
+
+        column = column -1;
+        
+        if(validateSpaceForUpdate(row, column)){
+            gameBoard[row][column] += point;
+
+            // Normalize the overflow values
+            if(gameBoard[row][column] > 4)
+                gameBoard[row][column] = 4;
+            else if(gameBoard[row][column] < 0)
+                gameBoard[row][column] = 0;
+        }
+        else
+            break;
+    }
+
+    // (0, +y)
+    while(1){
+
+        column = column +1;
+
+        if(validateSpaceForUpdate(row, column)){
+            gameBoard[row][column] += point;
+
+            // Normalize the overflow values
+            if(gameBoard[row][column] > 4)
+                gameBoard[row][column] = 4;
+            else if(gameBoard[row][column] < 0)
+                gameBoard[row][column] = 0;
+        }
+        else
+            break;
+    }
+
+    // (-x, 0)
+    while(1){
+
+        row = row -1;
+
+        if(validateSpaceForUpdate(row, column)){
+            gameBoard[row][column] += point;
+
+            // Normalize the overflow values
+            if(gameBoard[row][column] > 4)
+                gameBoard[row][column] = 4;
+            else if(gameBoard[row][column] < 0)
+                gameBoard[row][column] = 0;
+        }
+        else
+            break;
+    }
+
+    // (+x, 0)
+    while(1){
+
+        row = row +1;
+        
+        if(validateSpaceForUpdate(row, column)){
+            gameBoard[row][column] += point;
+
+            // Normalize the overflow values
+            if(gameBoard[row][column] > 4)
+                gameBoard[row][column] = 4;
+            else if(gameBoard[row][column] < 0)
+                gameBoard[row][column] = 0;
+        }
+        else
+            break;
+    }
 }

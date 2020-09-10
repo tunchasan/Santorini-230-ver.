@@ -373,12 +373,10 @@ int validateSpaces(Vector2D** spaces, int x, int y){
 
 void effectGameBoard(int point, int** gameBoard){
 
-    int row = point == 1 ? playerXPosition : aiXPosition;
+    int row = point == 1 ? playerXPosition - 1 : aiXPosition - 1;
 
-    int column = point == 1 ? playerYPosition : aiYPosition;
-
-    int i,j;
-
+    int column = point == 1 ? playerYPosition - 1 : aiYPosition - 1;
+/*
     // (-x, -y)
     while(1){
 
@@ -399,15 +397,19 @@ void effectGameBoard(int point, int** gameBoard){
             break;
     }
 
+    row = point == 1 ? playerXPosition - 1 : aiXPosition - 1;
+
+    column = point == 1 ? playerYPosition - 1 : aiYPosition - 1;
+
     // (-x, +y)
     while(1){
 
         row = row -1;
 
         column = column +1;
-        
+
         if(validateSpaceForUpdate(row, column)){
-            gameBoard[row][column] += point;
+            gameBoard[row][column] = 3;
 
             // Normalize the overflow values
             if(gameBoard[row][column] > 4)
@@ -418,6 +420,10 @@ void effectGameBoard(int point, int** gameBoard){
         else
             break;
     }
+
+    row = point == 1 ? playerXPosition - 1 : aiXPosition - 1;
+
+    column = point == 1 ? playerYPosition - 1 : aiYPosition - 1;
 
     // (+x, -y)
     while(1){
@@ -439,15 +445,22 @@ void effectGameBoard(int point, int** gameBoard){
             break;
     }
 
+    row = point == 1 ? playerXPosition - 1 : aiXPosition - 1;
+
+    column = point == 1 ? playerYPosition - 1 : aiYPosition - 1;
+*/
     // (+x, +y)
     while(1){
+            printf("[%d, %d] ", row, column);
 
         row = row +1;
 
         column = column +1;
+            printf("[%d, %d] ", row, column);
         
         if(validateSpaceForUpdate(row, column)){
             gameBoard[row][column] += point;
+            printf("[%d, %d] ", row, column);
 
             // Normalize the overflow values
             if(gameBoard[row][column] > 4)
@@ -459,6 +472,10 @@ void effectGameBoard(int point, int** gameBoard){
             break;
     }
 
+    row = point == 1 ? playerXPosition - 1 : aiXPosition - 1;
+
+    column = point == 1 ? playerYPosition - 1 : aiYPosition - 1;
+/*
     // (0, -y)
     while(1){
 
@@ -476,6 +493,10 @@ void effectGameBoard(int point, int** gameBoard){
         else
             break;
     }
+
+    row = point == 1 ? playerXPosition - 1 : aiXPosition - 1;
+
+    column = point == 1 ? playerYPosition - 1 : aiYPosition - 1;
 
     // (0, +y)
     while(1){
@@ -495,6 +516,10 @@ void effectGameBoard(int point, int** gameBoard){
             break;
     }
 
+    row = point == 1 ? playerXPosition - 1 : aiXPosition - 1;
+
+    column = point == 1 ? playerYPosition - 1 : aiYPosition - 1;
+
     // (-x, 0)
     while(1){
 
@@ -513,6 +538,10 @@ void effectGameBoard(int point, int** gameBoard){
             break;
     }
 
+    row = point == 1 ? playerXPosition - 1 : aiXPosition - 1;
+
+    column = point == 1 ? playerYPosition - 1 : aiYPosition - 1;
+
     // (+x, 0)
     while(1){
 
@@ -529,5 +558,5 @@ void effectGameBoard(int point, int** gameBoard){
         }
         else
             break;
-    }
+    }*/
 }
